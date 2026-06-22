@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Very Important Question 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #E8506A;
+    --blush: #FADADD;
+    --petal: #FFF0F3;
+    --deep: #7B1E3C;
+    --gold: #D4A847;
+    --cream: #FFF8F9;
+    --text: #3A1525;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--petal);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .hearts-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .heart-particle {
+    position: absolute;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+  }
+
+  .page {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.8s ease;
+  }
+  .page.active { display: flex; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 2.8rem 2.4rem;
+    max-width: 560px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(232,80,106,0.15), 0 4px 16px rgba(0,0,0,0.06);
+    text-align: center;
+    position: relative;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--deep);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  h1 em { font-style: italic; color: var(--rose); }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    color: var(--deep);
+    margin-bottom: 0.6rem;
+  }
+  p {
+    color: #7A4050;
+    line-height: 1.75;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+  .label {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .gif-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 1.2rem auto;
+    max-width: 300px;
+    box-shadow: 0 8px 24px rgba(232,80,106,0.2);
+    background: var(--blush);
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gif-wrap img {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-block;
+    padding: 0.85rem 2.4rem;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: white;
+    box-shadow: 0 6px 20px rgba(232,80,106,0.4);
+  }
+  .btn-yes:hover { box-shadow: 0 10px 28px rgba(232,80,106,0.5); }
+
+  /* Page 1 No — same pink as page 2 */
+  .btn-no-p1 {
+    background: #FFE4ED;
+    color: #C0395A;
+    border: 2px solid #F2A0B8;
+    font-weight: 600;
+    transition: transform 0.2s ease, background 0.2s;
+  }
+  .btn-no-p1:hover {
+    transform: rotate(-8deg) scale(0.88) !important;
+  }
+
+  /* Page 2 floating No — light pink, softer than Yes */
+  .btn-no-float {
+    background: #FFE4ED;
+    color: #C0395A;
+    border: 2px solid #F2A0B8;
+    font-weight: 600;
+    padding: 0.7rem 1.8rem;
+    border-radius: 50px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), #C4940A);
+    color: white;
+    box-shadow: 0 6px 20px rgba(212,168,71,0.4);
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 1rem;
+    margin-top: 1.4rem;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(212,168,71,0.5); }
+
+  .btn-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1.6rem; flex-wrap: wrap; align-items: center; }
+
+  /* Floating no button on page 2 — starts inline, escapes on hover */
+  #no-btn-float {
+    transition: left 0.15s ease, top 0.15s ease;
+    z-index: 999;
+  }
+  #no-btn-float.escaped {
+    position: fixed;
+  }
+
+  /* ── FORM ── */
+  .form-section { margin-top: 1.4rem; text-align: left; }
+  .form-section .label { display: block; margin-bottom: 0.4rem; }
+  input[type="date"], select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #F2C4CE;
+    border-radius: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--petal);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  input[type="date"]:focus, select:focus { border-color: var(--rose); background: white; }
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23E8506A' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .field-gap { margin-top: 1rem; }
+  .error-msg { color: var(--rose); font-size: 0.85rem; margin-top: 0.3rem; display: none; }
+
+  /* ── FOOD GRID ── */
+  .food-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin-top: 1.2rem;
+  }
+  .food-option {
+    border: 2px solid #F2C4CE;
+    border-radius: 14px;
+    padding: 0.7rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--petal);
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 600;
+    text-align: center;
+    user-select: none;
+  }
+  .food-option:hover { border-color: var(--rose); background: white; }
+  .food-option.selected {
+    border-color: var(--rose);
+    background: linear-gradient(135deg, #FFF0F3, #FFD6DF);
+    color: var(--deep);
+    box-shadow: 0 4px 12px rgba(232,80,106,0.2);
+  }
+  /* Special highlight for her fav */
+  .food-option.fav-dish {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #FFFDE7, #FFF8E1);
+  }
+  .food-option.fav-dish.selected {
+    border-color: #C4940A;
+    background: linear-gradient(135deg, #FFF8D6, #FFE082);
+    color: #5D3A00;
+  }
+  .food-emoji { font-size: 1.6rem; display: block; margin-bottom: 0.2rem; }
+  .fav-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    background: var(--gold);
+    color: white;
+    border-radius: 20px;
+    padding: 0.1rem 0.5rem;
+    margin-top: 0.2rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  /* ── CONFETTI ── */
+  .confetti-piece {
+    position: fixed;
+    animation: confettiFall 3s linear forwards;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #FFE4ED, #FFD6DF);
+    color: var(--rose);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    border: 1px solid #F2C4CE;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 0.7rem;
+    color: #D4A0B0; font-size: 0.85rem; margin: 1rem 0;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: #F2C4CE;
+  }
+
+  /* ── FINAL SUMMARY ── */
+  .final-reveal {
+    background: linear-gradient(135deg, var(--deep), #A83258);
+    border-radius: 16px;
+    padding: 1.4rem;
+    color: white;
+    margin-top: 1.4rem;
+    text-align: center;
+  }
+  .final-reveal p { color: rgba(255,255,255,0.85); font-size: 0.95rem; margin-bottom: 0.3rem; }
+  .final-reveal strong { color: white; font-size: 1.1rem; }
+  .final-reveal .divider { color: rgba(255,255,255,0.4); }
+  .final-reveal .divider::before, .final-reveal .divider::after { background: rgba(255,255,255,0.2); }
+
+  .submitting-msg { color: var(--rose); font-size: 0.9rem; margin-top: 0.8rem; display: none; text-align:center; }
+</style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsContainer"></div>
+
+<!-- ══════════ PAGE 1 — The Question ══════════ -->
+<section class="page active" id="page1">
+  <div class="card">
+    <div class="badge">💌 A Special Message For You</div>
+    <h1>Will you go on a <em>date</em> with me?</h1>
+
+    <div class="gif-wrap">
+      <!-- Bubu Dudu hug/love theme -->
+      <img src="gifs/gif1.png"
+           alt="bubu dudu love gif"
+           onerror="this.src='https://media.giphy.com/media/RHOwWKH5OY7buuGHNi/giphy.gif'">
+    </div>
+
+    <p>I've been thinking about this for a while... and there's nothing I'd love more than spending a special evening with you. 🌹</p>
+
+    <div class="btn-group">
+      <button class="btn btn-yes" onclick="goTo('page3')">💖 Yes!</button>
+      <button class="btn btn-no-p1" id="p1NoBtn" onmouseenter="hoverNo(this)" onmouseleave="unhoverNo(this)" onclick="wiggleAndGo(this)">No</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PAGE 2 — Convince Her (reached only via accidental no on p1 — not used now, kept as fallback) ══════════ -->
+<section class="page" id="page2">
+  <div class="card">
+    <div class="badge">🥺 Are you sure though?</div>
+    <h2>Please reconsider... 😢</h2>
+
+    <div class="gif-wrap">
+      <!-- Bubu Dudu sad/crying theme -->
+      <img src="gifs/gif2.png"
+           alt="bubu dudu sad gif"
+           onerror="this.src='https://media.giphy.com/media/jUwpNzg9IcyrK/giphy.gif'">
+    </div>
+
+    <p>I promise it'll be the best date ever. Good food, lots of laughs, and my undivided attention — just for you. 💫</p>
+    <p>The "No" button is being very naughty right now... maybe that's a sign? 😇</p>
+
+    <div class="btn-group" id="page2BtnGroup">
+      <button class="btn btn-yes" onclick="goTo('page3')">✨ Okay, Yes!</button>
+      <button class="btn-no-float" id="no-btn-float" onmouseenter="runAway()" onclick="runAway()">No 🙈</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PAGE 3 — Date & Location ══════════ -->
+<section class="page" id="page3">
+  <div class="card">
+    <div class="badge">🎉 Yay!! Great Choice!</div>
+    <h2>You made the right call! 🥳</h2>
+
+    <div class="gif-wrap">
+      <!-- Bubu Dudu celebrate / happy jumping -->
+      <img src="gifs/gif3.png"
+           alt="bubu dudu happy gif"
+           onerror="this.src='https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif'">
+    </div>
+
+    <p>Now let's plan our perfect date! Pick a day and your favourite city. 🌸</p>
+
+    <div class="form-section">
+      <div>
+        <span class="label">📅 Choose a Date</span>
+        <input type="date" id="datePicker" min="">
+        <div class="error-msg" id="dateError">Please pick a date first! 🗓️</div>
+      </div>
+      <div class="field-gap">
+        <span class="label">💗 Where Should We Go?</span>
+        <select id="locationPicker">
+          <option value="" disabled selected>Choose our special place...</option>
+          <option value="Lucknow">🌹 Lucknow – Where Every Lane Feels Like Love</option>
+          <option value="Kanpur">💞 Kanpur – Where Every Moment Feels Like Home</option>
+        </select>
+        <div class="error-msg" id="locationError">Please choose a city! 🏙️</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="submitDateLocation()">Continue to Food Choices 🍽️ →</button>
+  </div>
+</section>
+
+<!-- ══════════ PAGE 4 — Food Choices ══════════ -->
+<section class="page" id="page4">
+  <div class="card">
+    <div class="badge">🍽️ Almost Done!</div>
+    <h2>What's your food vibe? 😋</h2>
+
+    <div class="gif-wrap">
+      <!-- Bubu Dudu eating / food happy -->
+      <img src="gifs/gif4.gif"
+           alt="bubu dudu food gif"
+           onerror="this.src='https://media.giphy.com/media/du3J3cXyzhj75IOgvA/giphy.gif'">
+    </div>
+
+    <p>Pick your favourites — I'll plan every bite just for you! 🌟</p>
+
+    <div class="food-grid" id="foodGrid">
+      <div class="food-option" onclick="toggleFood(this)" data-val="North Indian">
+        <span class="food-emoji">🍛</span> North Indian
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="Chinese">
+        <span class="food-emoji">🥟</span> Chinese
+      </div>
+      <div class="food-option fav-dish" onclick="toggleFood(this)" data-val="Dal Chawal with a Twist ✨">
+        <span class="food-emoji">🍚</span> Dal Chawal ✨
+        <span class="fav-tag">⭐ Your Fav</span>
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="Pizza & Pasta">
+        <span class="food-emoji">🍕</span> Pizza & Pasta
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="Street Food & Chaat">
+        <span class="food-emoji">🥙</span> Street Food & Chaat
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="Desserts & Sweets">
+        <span class="food-emoji">🍰</span> Desserts & Sweets
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="South Indian">
+        <span class="food-emoji">🥞</span> South Indian
+      </div>
+      <div class="food-option" onclick="toggleFood(this)" data-val="Fast Food & Burgers">
+        <span class="food-emoji">🍔</span> Fast Food
+      </div>
+    </div>
+
+    <div class="error-msg" id="foodError" style="display:none; text-align:center; margin-top:0.8rem;">Please pick at least one option! 🥺</div>
+
+    <button class="btn-primary" onclick="submitFood()">Confirm Our Date! 💕 →</button>
+    <div class="submitting-msg" id="submittingMsg">💌 Sending your response... please wait!</div>
+  </div>
+</section>
+
+<!-- ══════════ PAGE 5 — Final ══════════ -->
+<section class="page" id="page5">
+  <div class="card">
+    <div class="badge">🌹 It's Official!</div>
+    <h1>Our Date is <em>Set!</em> 💍</h1>
+
+    <div class="gif-wrap">
+      <!-- Bubu Dudu hearts flying / romantic final -->
+      <img src="gifs/gif5.gif"
+           alt="bubu dudu love final"
+           onerror="this.src='https://media.giphy.com/media/l0Iy4MLVJzfyRqF0Q/giphy.gif'">
+    </div>
+
+    <p>I can't wait! This is going to be the most special day. ❤️</p>
+
+    <div class="final-reveal">
+      <p class="label" style="color:rgba(255,255,255,0.6); letter-spacing:0.1em;">📋 Our Date Summary</p>
+
+      <div class="divider">📅</div>
+      <p>Date</p>
+      <strong id="summaryDate">—</strong>
+
+      <div class="divider">📍</div>
+      <p>Location</p>
+      <strong id="summaryLocation">—</strong>
+
+      <div class="divider">🍽️</div>
+      <p>Food Vibes</p>
+      <strong id="summaryFood">—</strong>
+    </div>
+
+    <p style="margin-top:1.4rem; font-size:0.9rem; color:#B06080;">Save a screenshot! 📸 I'll take care of all the planning. 🌸</p>
+  </div>
+</section>
+
+<!-- Hidden Formspree form -->
+<form id="formspree-form" action="https://formspree.io/f/mpqgakqv" method="POST" style="display:none;">
+  <input type="hidden" name="_subject" value="💕 She Said Yes! Date Details Inside">
+  <input type="hidden" name="_replyto" value="satyamkumar180202@gmail.com">
+  <input type="hidden" name="date"        id="fs-date">
+  <input type="hidden" name="location"    id="fs-location">
+  <input type="hidden" name="food"        id="fs-food">
+  <input type="hidden" name="answered_at" id="fs-time">
+</form>
+
+<script>
+// ── HEARTS ──
+const container = document.getElementById('heartsContainer');
+const emojis = ['❤️','🌸','✨','💕','🌹','💗','🥀','💞'];
+for(let i=0;i<22;i++){
+  const h = document.createElement('span');
+  h.className='heart-particle';
+  h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  h.style.left=Math.random()*100+'vw';
+  h.style.animationDuration=(6+Math.random()*10)+'s';
+  h.style.animationDelay=(Math.random()*8)+'s';
+  h.style.fontSize=(0.9+Math.random()*1.2)+'rem';
+  container.appendChild(h);
+}
+
+// ── NAVIGATION ──
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='page2'){
+    noEscaped=false;
+    const btn=document.getElementById('no-btn-float');
+    btn.classList.remove('escaped');
+    btn.style.left=''; btn.style.top='';
+  }
+  if(id==='page5') triggerConfetti();
+}
+
+// ── PAGE 1 NO — hover tilts + text, click redirects ──
+function hoverNo(btn){
+  btn.style.transform='rotate(-8deg) scale(0.88)';
+  btn.textContent='Why No? 🥺';
+}
+function unhoverNo(btn){
+  btn.style.transform='';
+  btn.textContent='No';
+}
+function wiggleAndGo(btn){
+  goTo('page2');
+}
+
+// ── PAGE 2 RUNAWAY NO — starts beside Yes, escapes on first hover ──
+let noEscaped=false;
+function runAway(){
+  const btn=document.getElementById('no-btn-float');
+  if(!noEscaped){
+    noEscaped=true;
+    btn.classList.add('escaped');
+  }
+  const m=60;
+  const maxX=window.innerWidth-m*2-130;
+  const maxY=window.innerHeight-m*2-60;
+  btn.style.left=(m+Math.random()*Math.max(maxX,10))+'px';
+  btn.style.top=(m+Math.random()*Math.max(maxY,10))+'px';
+}
+
+// ── PAGE 3 ──
+document.getElementById('datePicker').min=new Date().toISOString().split('T')[0];
+
+function submitDateLocation(){
+  const date=document.getElementById('datePicker').value;
+  const loc=document.getElementById('locationPicker').value;
+  const dErr=document.getElementById('dateError');
+  const lErr=document.getElementById('locationError');
+  let valid=true;
+  if(!date){dErr.style.display='block';valid=false;}else{dErr.style.display='none';}
+  if(!loc){lErr.style.display='block';valid=false;}else{lErr.style.display='none';}
+  if(valid){
+    window._dateChoice=new Date(date).toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    window._locChoice=loc;
+    goTo('page4');
+  }
+}
+
+// ── PAGE 4 FOOD ──
+function toggleFood(el){ el.classList.toggle('selected'); }
+
+function submitFood(){
+  const selected=[...document.querySelectorAll('.food-option.selected')].map(e=>e.dataset.val);
+  if(selected.length===0){
+    document.getElementById('foodError').style.display='block';
+    return;
+  }
+  document.getElementById('foodError').style.display='none';
+  window._foodChoice=selected;
+
+  document.getElementById('summaryDate').textContent=window._dateChoice||'—';
+  document.getElementById('summaryLocation').textContent=window._locChoice||'—';
+  document.getElementById('summaryFood').textContent=window._foodChoice.join(', ');
+
+  document.getElementById('fs-date').value=window._dateChoice||'';
+  document.getElementById('fs-location').value=window._locChoice||'';
+  document.getElementById('fs-food').value=window._foodChoice.join(', ');
+  document.getElementById('fs-time').value=new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'});
+
+  const msg=document.getElementById('submittingMsg');
+  msg.style.display='block';
+
+  const form=document.getElementById('formspree-form');
+  const data=new FormData(form);
+  fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}})
+    .then(()=>{msg.style.display='none'; goTo('page5');})
+    .catch(()=>{msg.style.display='none'; goTo('page5');});
+}
+
+// ── CONFETTI ──
+function triggerConfetti(){
+  const colors=['#E8506A','#D4A847','#7B1E3C','#FFD6DF','#FFF0A0','#C0E8FF','#FADADD'];
+  for(let i=0;i<100;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');
+      c.className='confetti-piece';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.borderRadius=Math.random()>0.5?'50%':'2px';
+      c.style.width=(6+Math.random()*8)+'px';
+      c.style.height=(6+Math.random()*8)+'px';
+      c.style.animationDuration=(2+Math.random()*2)+'s';
+      c.style.animationDelay=(Math.random()*0.5)+'s';
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),4500);
+    },i*25);
+  }
+}
+</script>
+</body>
+</html>
