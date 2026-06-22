@@ -341,7 +341,7 @@
 
     <div class="btn-group">
       <button class="btn btn-yes" onclick="goTo('page3')">💖 Yes!</button>
-      <button class="btn btn-no-p1" id="p1NoBtn" onmouseenter="hoverNo(this)" onmouseleave="unhoverNo(this)" onclick="wiggleAndGo(this)">No</button>
+      <button class="btn btn-no-p1" id="p1NoBtn" onclick="wiggleAndGo(this)">No</button>
     </div>
   </div>
 </section>
@@ -364,7 +364,7 @@
 
     <div class="btn-group" id="page2BtnGroup">
       <button class="btn btn-yes" onclick="goTo('page3')">✨ Okay, Yes!</button>
-      <button class="btn-no-float" id="no-btn-float" onmouseenter="runAway()" onclick="runAway()">No 🙈</button>
+      <button class="btn-no-float" id="no-btn-float" onmouseenter="runAway()" ontouchstart="runAway()" onclick="runAway()">No 🙈</button>
     </div>
   </div>
 </section>
@@ -529,15 +529,19 @@ function goTo(id){
   if(id==='page5') triggerConfetti();
 }
 
-// ── PAGE 1 NO — hover tilts + text, click redirects ──
-function hoverNo(btn){
-  btn.style.transform='rotate(-8deg) scale(0.88)';
-  btn.textContent='Why No? 🥺';
-}
-function unhoverNo(btn){
-  btn.style.transform='';
-  btn.textContent='No';
-}
+// ── PAGE 1 NO — desktop hover tilts, click redirects instantly ──
+const p1NoBtn = document.getElementById('p1NoBtn');
+
+// Desktop hover effects only
+p1NoBtn.addEventListener('mouseenter', function(){
+  this.style.transform='rotate(-8deg) scale(0.88)';
+  this.textContent='Why No? 🥺';
+});
+p1NoBtn.addEventListener('mouseleave', function(){
+  this.style.transform='';
+  this.textContent='No';
+});
+
 function wiggleAndGo(btn){
   goTo('page2');
 }
